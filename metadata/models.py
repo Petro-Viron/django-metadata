@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes import generic
-import simplejson
+import json
 
 class MetaDataManager(models.Manager):
     '''This manager allow to with MetaData.objects as a Dict (useful for
@@ -29,7 +29,7 @@ class MetaDataManager(models.Manager):
                 return False
         except IndexError,e:
             return False
-        
+
     def __iter__(self):
         return self.iteritems()
 
@@ -69,9 +69,9 @@ class MetaData(models.Model):
     def as_tuple(self):
         '''Return a tuple in the format (name, value)'''
         return (self.name, self.value)
-        
+
     def __repr__(self):
-        return simplejson.dumps(dict(
+        return json.dumps(dict(
             name=self.name,
             value=self.value,
             content_type=self.content_type.name,
