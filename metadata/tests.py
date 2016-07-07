@@ -70,23 +70,23 @@ class TestFixingIssue3(TestCase):
         
     def test_loop_with_1_metadata(self):
         self.someitem.metadata['foo'] = 'bar'
-        self.assertEqual(self.someitem.metadata.items(), [('foo', 'bar'),])
+        self.assertEqual(list(self.someitem.metadata.items()), [('foo', 'bar'),])
         
     def test_loop_with_10_metadata(self):
-        for x in xrange(10):
+        for x in range(10):
             v = '{:02}'.format(x)
             self.someitem.metadata[v] = v
-        self.assertEqual(len(self.someitem.metadata.items()), 10)
+        self.assertEqual(len(list(self.someitem.metadata.items())), 10)
 
     def test_loop_within_template(self):
         self.test_loop_with_10_metadata()
-        template = Template(u'''
+        template = Template('''
             {% for key, value in someitem.metadata %}{{key}}:{{value}}{% endfor %}
         '''.strip())
         context = Context({'someitem':self.someitem})
         result = template.render(context)
         
-        expected = u''.join('{0:02}:{0:02}'.format(x) for x in xrange(10))
+        expected = ''.join('{0:02}:{0:02}'.format(x) for x in range(10))
 
         self.assertEqual(result, expected)
         
