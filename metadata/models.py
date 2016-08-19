@@ -38,7 +38,7 @@ class MetaDataManager(models.Manager):
             yield metadata.name
 
     def keys(self):
-        return list(self.keys())
+        return list(self.iterkeys())
 
     def itervalues(self):
         # This way we can zip iterkeys and itervalues and retrieve the correct
