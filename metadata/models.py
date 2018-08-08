@@ -1,7 +1,9 @@
-from django.db import models
-from django.contrib.contenttypes.models import ContentType
-from django.contrib.contenttypes.fields import GenericForeignKey
 import json
+
+from django.contrib.contenttypes.fields import GenericForeignKey
+from django.contrib.contenttypes.models import ContentType
+from django.db import models
+
 
 class MetaDataManager(models.Manager):
     '''This manager allow to with MetaData.objects as a Dict (useful for
@@ -61,7 +63,7 @@ class MetaData(models.Model):
     name = models.CharField(max_length=256, db_index=True)
     value = models.CharField(max_length=256, db_index=True)
 
-    content_type = models.ForeignKey(ContentType)
+    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
     object_id = models.PositiveIntegerField()
     content_object = GenericForeignKey('content_type', 'object_id')
 
@@ -77,4 +79,3 @@ class MetaData(models.Model):
             content_type=self.content_type.name,
             object_id=self.object_id,
         ))
-
